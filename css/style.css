@@ -1,0 +1,19 @@
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 50px;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+#timer {
+    font-size: 3em;
+    margin: 20px 0;
+}
+
+#action {
+    margin-top: 20px;
+    font-size: 1.5em;
+}
