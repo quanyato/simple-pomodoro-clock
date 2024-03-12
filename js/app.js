@@ -1,5 +1,5 @@
 let settingData = {
-    lightTheme: true, //chua phat trien tinh nang
+    darkTheme: false, //chua phat trien tinh nang
     pomodoroLength: 25,
     shortBreakLength: 5,
     longBreakLength: 15,
@@ -25,12 +25,23 @@ function updateTimerDOM() {
 
 function updateStateDOM() {
     if (isWorking) {
-        document.getElementById('state').innerText = 'Working';
+        document.getElementById('state').innerText = `Working ${pomoRound}`;
     } else if (pomoRound == 4) {
         document.getElementById('state').innerText = 'Long break';
     } else {
         document.getElementById('state').innerText = 'Short break';
     }
+}
+
+function loadSettingsToDOM() {
+    document.getElementById('darkThemeOn').checked = settingData.darkTheme;
+    document.getElementById('pomodoroLength').value = settingData.pomodoroLength;
+    document.getElementById('shortBreakLength').value = settingData.shortBreakLength;
+    document.getElementById('longBreakLength').value = settingData.longBreakLength;
+    document.getElementById('pomoUntilLongBreak').value = settingData.pomoUntilLongBreak;
+    document.getElementById('autoStartOn').checked = settingData.autoStart;
+    document.getElementById('soundOn').checked = settingData.soundEnable;
+    document.getElementById('notificationOn').checked = settingData.notificationEnable;
 }
 
 // main function
@@ -96,11 +107,27 @@ function pauseOrStart() {
     }
 }
 
+function updateSettingsFromDOM() {
+    settingData.darkTheme = document.getElementById('darkThemeOn').checked;
+    settingData.pomodoroLength = parseInt(document.getElementById('pomodoroLength').value);
+    settingData.shortBreakLength = parseInt(document.getElementById('shortBreakLength').value);
+    settingData.longBreakLength = parseInt(document.getElementById('longBreakLength').value);
+    settingData.pomoUntilLongBreak = parseInt(document.getElementById('pomoUntilLongBreak').value);
+    settingData.autoStart = document.getElementById('autoStartOn').checked;
+    settingData.soundEnable = document.getElementById('soundOn').checked;
+    settingData.notificationEnable = document.getElementById('notificationOn').checked;
+    pomoRound = 1;
+    isWorking = true;
+    resetPomodoro();
+}
+
 //init
 updateStateDOM();
 updateTimerDOM();
+loadSettingsToDOM();
 
 // DOM
 document.getElementById('startButton').addEventListener('click', pauseOrStart);
 document.getElementById('resetButton').addEventListener('click', resetPomodoro);
 document.getElementById('forwardButton').addEventListener('click', forwardState);
+document.getElementById('settingMenu').addEventListener('change', updateSettingsFromDOM);
