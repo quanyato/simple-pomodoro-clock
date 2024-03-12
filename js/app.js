@@ -75,16 +75,24 @@ function forwardState() {
 }
 
 function startPomodoro() {
+    isPaused = false;
+    timer = setInterval(() => {
+        if (timeRemaining <= 0) {
+            forwardState();
+        } else {
+            timeRemaining--;
+        }
+        updateTimerDOM();
+    }, 1000);
+}
+
+function pauseOrStart() {
     if (isPaused) {
-        isPaused = false;
-        timer = setInterval(() => {
-            if (timeRemaining <= 0) {
-                forwardState();
-            } else {
-                timeRemaining--;
-            }
-            updateTimerDOM();
-        }, 1000);
+        document.getElementById('startButton').innerText = 'Pause';
+        startPomodoro();
+    } else {
+        document.getElementById('startButton').innerText = 'Play';
+        pausePomodoro();
     }
 }
 
@@ -93,7 +101,6 @@ updateStateDOM();
 updateTimerDOM();
 
 // DOM
-document.getElementById('startButton').addEventListener('click', startPomodoro);
-document.getElementById('pauseButton').addEventListener('click', pausePomodoro);
+document.getElementById('startButton').addEventListener('click', pauseOrStart);
 document.getElementById('resetButton').addEventListener('click', resetPomodoro);
 document.getElementById('forwardButton').addEventListener('click', forwardState);
