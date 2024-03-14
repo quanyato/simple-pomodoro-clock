@@ -26,10 +26,18 @@ function updateTimerDOM() {
 function updateStateDOM() {
     if (isWorking) {
         document.getElementById('state').innerText = `Working ${pomoRound}`;
-    } else if (pomoRound == 4) {
+    } else if (pomoRound == settingData.pomoUntilLongBreak) {
         document.getElementById('state').innerText = 'Long break';
     } else {
         document.getElementById('state').innerText = 'Short break';
+    }
+}
+
+function updateContextPlayButton() {
+    if (isPaused) {
+        document.getElementById('startButton').innerText = 'Play';
+    } else {
+        document.getElementById('startButton').innerText = 'Pause';
     }
 }
 
@@ -48,7 +56,7 @@ function loadSettingsToDOM() {
 function resetTimeRemaining() {
     if (isWorking) {
         timeRemaining = settingData.pomodoroLength * 60;
-    } else if (pomoRound == 4) {
+    } else if (pomoRound == settingData.pomoUntilLongBreak) {
         timeRemaining = settingData.longBreakLength * 60;
     } else {
         timeRemaining = settingData.shortBreakLength * 60;
@@ -58,22 +66,21 @@ function resetTimeRemaining() {
 function pausePomodoro() {
     clearInterval(timer);
     isPaused = true;
+    updateContextPlayButton();
 }
 
 function resetPomodoro() {
-    clearInterval(timer);
-    isPaused = true;
+    pausePomodoro();
     resetTimeRemaining();
     updateTimerDOM();
     updateStateDOM();
 }
 
-function forwardState() {
-    clearInterval(timer);
-    isPaused = true;
+function forwardStateAnd(callBackStart) {
+    pausePomodoro();
     if (isWorking) {
         isWorking = false;
-    } else if (pomoRound == 4) {
+    } else if (pomoRound == settingData.pomoUntilLongBreak) {
         pomoRound = 1;
         isWorking = true;
     } else {
@@ -83,13 +90,18 @@ function forwardState() {
     resetTimeRemaining();
     updateTimerDOM();
     updateStateDOM();
+
+    if (settingData.autoStart && callBackStart) {
+        callBackStart();
+    }
 }
 
 function startPomodoro() {
     isPaused = false;
+    updateContextPlayButton();
     timer = setInterval(() => {
         if (timeRemaining <= 0) {
-            forwardState();
+            forwardStateAnd(startPomodoro);
         } else {
             timeRemaining--;
         }
@@ -99,35 +111,38 @@ function startPomodoro() {
 
 function pauseOrStart() {
     if (isPaused) {
-        document.getElementById('startButton').innerText = 'Pause';
         startPomodoro();
     } else {
-        document.getElementById('startButton').innerText = 'Play';
         pausePomodoro();
     }
 }
 
-function updateSettingsFromDOM() {
-    settingData.darkTheme = document.getElementById('darkThemeOn').checked;
+function updatePomoSettings() {
     settingData.pomodoroLength = parseInt(document.getElementById('pomodoroLength').value);
     settingData.shortBreakLength = parseInt(document.getElementById('shortBreakLength').value);
     settingData.longBreakLength = parseInt(document.getElementById('longBreakLength').value);
     settingData.pomoUntilLongBreak = parseInt(document.getElementById('pomoUntilLongBreak').value);
-    settingData.autoStart = document.getElementById('autoStartOn').checked;
-    settingData.soundEnable = document.getElementById('soundOn').checked;
-    settingData.notificationEnable = document.getElementById('notificationOn').checked;
     pomoRound = 1;
     isWorking = true;
     resetPomodoro();
 }
 
+function updateOtherSettings() {
+    settingData.darkTheme = document.getElementById('darkThemeOn').checked;
+    settingData.autoStart = document.getElementById('autoStartOn').checked;
+    settingData.soundEnable = document.getElementById('soundOn').checked;
+    settingData.notificationEnable = document.getElementById('notificationOn').checked;
+}
+
 //init
 updateStateDOM();
 updateTimerDOM();
+updateContextPlayButton();
 loadSettingsToDOM();
 
 // DOM
 document.getElementById('startButton').addEventListener('click', pauseOrStart);
 document.getElementById('resetButton').addEventListener('click', resetPomodoro);
-document.getElementById('forwardButton').addEventListener('click', forwardState);
-document.getElementById('settingMenu').addEventListener('change', updateSettingsFromDOM);
+document.getElementById('forwardButton').addEventListener('click', function() {forwardStateAnd(startPomodoro);});
+document.getElementById('pomoSettings').addEventListener('change', updatePomoSettings);
+document.getElementById('otherSettings').addEventListener('change', updateOtherSettings);
