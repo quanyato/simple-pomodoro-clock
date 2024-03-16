@@ -147,7 +147,7 @@ function forwardSession() {
 function executeWhenCountdownEnds() {
     forwardSession();
     if (settingData.autoStart) {
-        startCountdown(executeWhenCountdownEnds);
+        startCountdown(executeWhenCountdownEnds());
     }
 }
 
@@ -158,7 +158,7 @@ function stopThisSession() {
 
 function pauseOrStart() {
     if (isPaused) {
-        startCountdown(executeWhenCountdownEnds);
+        startCountdown(executeWhenCountdownEnds());
     } else {
         pauseCountdown();
     }
