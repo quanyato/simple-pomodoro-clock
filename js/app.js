@@ -132,9 +132,7 @@ function pauseOrStart() {
 }
 
 function resetOrSettings() {
-    if (isPaused) {
-        settingsToggle();
-    } else {
+    if (!isPaused) {
         resetPomodoro();
     }
 }
