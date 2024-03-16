@@ -103,7 +103,7 @@ function startCountdown(funcExecuteWhenFinished) {
     updateContextStopButton();
     timer = setInterval(() => {
         if (timeRemaining <= 0) {
-            funcExecuteWhenFinished;
+            funcExecuteWhenFinished();
         } else {
             timeRemaining--;
         }
