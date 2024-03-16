@@ -150,7 +150,7 @@ body {
     font-size: 170px;
 }
 
-#state {
+#session {
     width: 150px;
     font-size: 20px;
     background-color: rgba(var(--tck-color-1), 1);
@@ -174,7 +174,7 @@ body {
         font-size: 140px;
     }
 
-    #state {
+    #session {
         width: 130px;
         font-size: 17px;
     }
@@ -198,7 +198,7 @@ body {
         font-size: 140px;
     }
 
-    #state {
+    #session {
         width: 130px;
         font-size: 17px;
     }
