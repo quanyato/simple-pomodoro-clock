@@ -178,7 +178,7 @@ function updatePomoSettings() {
     pomoRound = 1;
     isWorking = true;
     stopThisSession();
-    updateSessionDOM
+    updateSessionDOM();
 }
 
 function updateOtherSettings() {
