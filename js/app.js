@@ -15,7 +15,37 @@ let pomoRound = 1;
 let isWorking = true;
 let timeRemaining = settingData.pomodoroLength * 60;
 
+
+const lightRed = {
+    'back': '255, 245, 245',
+    'color1': '254, 215, 215',
+    'color2': '252, 129, 129',
+    'color3': '99, 23, 27',
+}
+
+const lightBlue = {
+    'back': '235, 248, 255',
+    'color1': '190, 227, 248',
+    'color2': '99, 179, 237',
+    'color3': '26, 54, 93',
+}
+
+const lightGreen = {
+    'back': '240, 255, 244',
+    'color1': '198, 246, 213',
+    'color2': '104, 211, 145',
+    'color3': '28, 69, 50',
+}
+
 // UI function
+function setTheme(theme) {
+    var r = document.querySelector(':root');
+    r.style.setProperty('--tck-background', theme.back);
+    r.style.setProperty('--tck-color-1', theme.color1);
+    r.style.setProperty('--tck-color-2', theme.color2);
+    r.style.setProperty('--tck-color-3', theme.color3);
+}
+
 function updateTimerDOM() {
     const minutes = Math.floor(timeRemaining / 60);
     const seconds = timeRemaining % 60;
@@ -24,11 +54,15 @@ function updateTimerDOM() {
 }
 
 function updateStateDOM() {
+
     if (isWorking) {
+        setTheme(lightRed);
         document.getElementById('state').innerText = `Working ${pomoRound}`;
     } else if (pomoRound == settingData.pomoUntilLongBreak) {
+        setTheme(lightGreen);
         document.getElementById('state').innerText = 'Long break';
     } else {
+        setTheme(lightBlue);
         document.getElementById('state').innerText = 'Short break';
     }
 }
@@ -164,6 +198,6 @@ loadSettingsToDOM();
 // DOM
 document.getElementById('startButton').addEventListener('click', pauseOrStart);
 document.getElementById('resetButton').addEventListener('click', resetOrSettings);
-document.getElementById('forwardButton').addEventListener('click', function() {forwardStateAnd(startPomodoro);});
+document.getElementById('forwardButton').addEventListener('click', function () { forwardStateAnd(startPomodoro); });
 document.getElementById('pomoSettings').addEventListener('change', updatePomoSettings);
 document.getElementById('otherSettings').addEventListener('change', updateOtherSettings);
