@@ -35,9 +35,21 @@ function updateStateDOM() {
 
 function updateContextPlayButton() {
     if (isPaused) {
-        document.getElementById('startButton').innerText = 'Play';
+        document.getElementById('startButton').innerHTML = '<span><i class="fa-solid fa-play fa-2xl"></i></span>';
     } else {
-        document.getElementById('startButton').innerText = 'Pause';
+        document.getElementById('startButton').innerHTML = '<span><i class="fa-solid fa-pause fa-2xl"></i></span>';
+    }
+}
+
+function updateContextResetButton() {
+    if (isPaused) {
+        document.getElementById('resetButton').innerHTML = '<span><i class="fa-solid fa-gear fa-lg"></i></span>';
+        document.getElementById('resetButton').dataset.bsTarget = "#settingsModal";
+        document.getElementById('resetButton').dataset.bsToggle = "modal";
+    } else {
+        document.getElementById('resetButton').innerHTML = '<span><i class="fa-solid fa-clock-rotate-left fa-lg"></i></span>';
+        document.getElementById('resetButton').dataset.bsTarget = "";
+        document.getElementById('resetButton').dataset.bsToggle = "modal";
     }
 }
 
@@ -67,6 +79,7 @@ function pausePomodoro() {
     clearInterval(timer);
     isPaused = true;
     updateContextPlayButton();
+    updateContextResetButton();
 }
 
 function resetPomodoro() {
@@ -99,6 +112,7 @@ function forwardStateAnd(callBackStart) {
 function startPomodoro() {
     isPaused = false;
     updateContextPlayButton();
+    updateContextResetButton();
     timer = setInterval(() => {
         if (timeRemaining <= 0) {
             forwardStateAnd(startPomodoro);
@@ -114,6 +128,14 @@ function pauseOrStart() {
         startPomodoro();
     } else {
         pausePomodoro();
+    }
+}
+
+function resetOrSettings() {
+    if (isPaused) {
+        settingsToggle();
+    } else {
+        resetPomodoro();
     }
 }
 
@@ -138,11 +160,12 @@ function updateOtherSettings() {
 updateStateDOM();
 updateTimerDOM();
 updateContextPlayButton();
+updateContextResetButton();
 loadSettingsToDOM();
 
 // DOM
 document.getElementById('startButton').addEventListener('click', pauseOrStart);
-document.getElementById('resetButton').addEventListener('click', resetPomodoro);
+document.getElementById('resetButton').addEventListener('click', resetOrSettings);
 document.getElementById('forwardButton').addEventListener('click', function() {forwardStateAnd(startPomodoro);});
 document.getElementById('pomoSettings').addEventListener('change', updatePomoSettings);
 document.getElementById('otherSettings').addEventListener('change', updateOtherSettings);

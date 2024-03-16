@@ -5,41 +5,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomodoro Clock</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/c05ecbd34f.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <h1>Pomodoro Clock</h1>
-    <div id="state"></div>
-    <div id="timer"><span id="minute"></span>:<span id="second"></span></div>
-    <button id="resetButton">Reset</button>
-    <button id="startButton">Start</button>
-    <button id="forwardButton">Forward</button>
-    <div id="settingMenu">
-        <div id="pomoSettings">
-            <label for="pomodoroLength">Pomodoro length</label>
-            <input type="number" id="pomodoroLength" name="pomodoroLength"><br>
-            <label for="shortBreakLength">Short break length</label>
-            <input type="number" id="shortBreakLength" name="shortBreakLength"><br>
-            <label for="longBreakLength">Long break length</label>
-            <input type="number" id="longBreakLength" name="longBreakLength"><br>
-            <label for="pomoUntilLongBreak">Pomodoro until long break</label>
-            <input type="number" id="pomoUntilLongBreak" name="pomoUntilLongBreak"><br>
+    <div class="mainApp mx-auto d-flex justify-content-center align-items-center">
+        <div>
+            <div id="state" class="roboto-medium border border-3 mx-auto rounded-pill text-center"></div>
+            <div id="timer" class="mb-3">
+                <h1 id="minute" class="m-0 p-0 text-center"></h1>
+                <h1 id="second" class="m-0 p-0 text-center"></h1>
+            </div>
+            <div>
+                <button type="button" class="btn m-0 border-0 btn-primary custom-btn-2"
+                    id="resetButton">Settings</button>
+                <button type="button" class="btn m-0 mx-1 border-0 btn-primary custom-btn-1" id="startButton"></button>
+                <button type="button" class="btn m-0 border-0 btn-primary custom-btn-2" id="forwardButton">
+                    <span><i class="fa-solid fa-forward fa-lg"></i></span>
+                </button>
+            </div>
         </div>
+    </div>
 
-        <div id="otherSettings">
-            <label for="darkThemeOn">Dark theme</label>
-            <input type="checkbox" id="darkThemeOn" name="darkThemeOn"><br>
-            <label for="autoStartOn">Auto start</label>
-            <input type="checkbox" id="autoStartOn" name="autoStartOn"><br>
-            <label for="soundOn">Sound enable</label>
-            <input type="checkbox" id="soundOn" name="soundOn"><br>
-            <label for="notificationOn">Notification enable</label>
-            <input type="checkbox" id="notificationOn" name="notificationOn"><br>
+    <!-- Modal -->
+    <div class="modal fade roboto-medium" id="settingsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 px-sm-3">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="settingMenu" class="container-fluid p-0 mb-3">
+                        <div id="pomoSettings">
+                            <div class="d-flex justify-content-between align-items-center pb-3">
+                                <label for="pomodoroLength">Pomodoro length</label>
+                                <input type="number" id="pomodoroLength" name="pomodoroLength"
+                                    class="form-control p-0 text-center inputNumber">
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center pb-3">
+                                <label for="shortBreakLength">Short break length</label>
+                                <input type="number" id="shortBreakLength" name="shortBreakLength"
+                                    class="form-control p-0 text-center inputNumber">
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center pb-3">
+                                <label for="longBreakLength">Long break length</label>
+                                <input type="number" id="longBreakLength" name="longBreakLength"
+                                    class="form-control p-0 text-center inputNumber">
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center pb-3">
+                                <label for="pomoUntilLongBreak">Pomo until long break</label>
+                                <input type="number" id="pomoUntilLongBreak" name="pomoUntilLongBreak"
+                                    class="form-control p-0 text-center inputNumber">
+                            </div>
+                        </div>
+
+                        <div id="otherSettings">
+                            <div class="form-check form-check-reverse form-switch  pb-3">
+                                <label for="darkThemeOn">Dark theme</label>
+                                <input type="checkbox" role="switch" id="darkThemeOn" class="form-check-input"
+                                    name="darkThemeOn">
+                            </div>
+                            <div class="form-check form-check-reverse form-switch pb-3">
+                                <label for="autoStartOn">Auto start</label>
+                                <input type="checkbox" role="switch" id="autoStartOn" class="form-check-input"
+                                    name="autoStartOn">
+                            </div>
+                            <div class="form-check form-check-reverse form-switch pb-3">
+                                <label for="soundOn">Sound enable</label>
+                                <input type="checkbox" role="switch" id="soundOn" class="form-check-input"
+                                    name="soundOn">
+                            </div>
+                            <div class="form-check form-check-reverse form-switch">
+                                <label for="notificationOn">Notification enable</label>
+                                <input type="checkbox" role="switch" id="notificationOn" class="form-check-input"
+                                    name="notificationOn">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
