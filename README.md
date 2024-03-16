@@ -12,7 +12,7 @@ Cho phép tự động sang phiên tiếp theo khi đồng hồ đếm ngược 
 ## Bổ sung âm thanh (*Chưa hoàn thành*)
 Thêm âm thanh khi bắt đầu phiên, kết thúc phiên và có thể là âm thanh nền xuyên suốt phiên làm việc
 
-## Cải tiến giao diện đẹp hơn, responsive (*Chưa hoàn thành*)
+## Cải tiến giao diện đẹp hơn, responsive
 
 ## Bổ sung các tính năng của PWA (*Chưa hoàn thành*)
 Cho phép hiển thị thông báo, chạy nền, buộc màn hình luôn bật, chạy offline, cài đặt local, .v.v...
