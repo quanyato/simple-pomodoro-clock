@@ -102,8 +102,12 @@ body {
     border-radius: 24px;
 }
 
-#minute,
-#second {
+#enter-text {
+    display: inline;
+}
+
+#clock-text {
+    text-align: center;
     line-height: 1;
     font-size: 170px;
 }
@@ -126,8 +130,7 @@ body {
         border-radius: 20px;
     }
 
-    #minute,
-    #second {
+    #clock-text {
         line-height: 1;
         font-size: 140px;
     }
@@ -135,5 +138,40 @@ body {
     #state {
         width: 130px;
         font-size: 17px;
+    }
+}
+
+@media screen and (max-height: 550px) {
+    .custom-btn-1 {
+        width: 90px;
+        height: 80px;
+        border-radius: 24px;
+    }
+
+    .custom-btn-2 {
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+    }
+
+    #clock-text {
+        line-height: 1;
+        font-size: 140px;
+    }
+
+    #state {
+        width: 130px;
+        font-size: 17px;
+    }
+}
+
+@media screen and (max-height: 420px) {
+    #enter-text {
+        display: none;
+    }
+
+    #clock-text {
+        line-height: 1;
+        font-size: 80px;
     }
 }
