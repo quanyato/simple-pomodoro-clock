@@ -13,7 +13,7 @@ let timer; //khoi tao mot chiec dong ho
 let isPaused = true;
 let pomoRound = 1;
 let isWorking = true;
-let timeRemaining = settingData.pomodoroLength*60;
+let timeRemaining = settingData.pomodoroLength * 60;
 
 const lightRed = {
     'back': '255, 245, 245',
@@ -178,6 +178,7 @@ function updatePomoSettings() {
     pomoRound = 1;
     isWorking = true;
     stopThisSession();
+    updateSessionDOM
 }
 
 function updateOtherSettings() {
