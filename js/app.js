@@ -14,6 +14,11 @@ let isPaused = true;
 let pomoRound = 1;
 let isWorking = true;
 let timeRemaining = settingData.pomodoroLength * 60;
+const startSoundUrl = '/audio/start.m4a';
+const shortBreakStartSoundUrl = '/audio/short_break_start.m4a';
+const shortBreakEndSoundUrl = '/audio/short_break_end.m4a';
+const longBreakStartSoundUrl = '/audio/long_break_start.m4a';
+const longBreakEndSoundUrl = '/audio/long_break_end.m4a';
 
 const lightRed = {
     'back': '255, 245, 245',
@@ -96,14 +101,37 @@ function loadSettingsToDOM() {
     document.getElementById('notificationOn').checked = settingData.notificationEnable;
 }
 
+function playSound(soundUrl) {
+    let sfx = new Audio(soundUrl);
+    if (settingData.soundEnable) {
+        sfx.play();
+    }
+}
+
+function playStartBreakSound() {
+    if (pomoRound == settingData.pomoUntilLongBreak) {
+        playSound(longBreakStartSoundUrl);
+    } else {
+        playSound(shortBreakStartSoundUrl);
+    }
+}
+
+function playEndBreakSound() {
+    if (pomoRound == settingData.pomoUntilLongBreak) {
+        playSound(longBreakEndSoundUrl);
+    } else {
+        playSound(shortBreakEndSoundUrl);
+    }
+}
+
 // main function
-function startCountdown(funcExecuteWhenFinished) {
+function startCountdown(funcExecuteWhenCountdownEnd) {
     isPaused = false;
     updateContextPlayButton();
     updateContextStopButton();
     timer = setInterval(() => {
         if (timeRemaining <= 0) {
-            funcExecuteWhenFinished();
+            funcExecuteWhenCountdownEnd();
         } else {
             timeRemaining--;
         }
@@ -133,6 +161,7 @@ function forwardSession() {
     pauseCountdown();
     if (isWorking) {
         isWorking = false;
+        playStartBreakSound();
     } else if (pomoRound == settingData.pomoUntilLongBreak) {
         pomoRound = 1;
         isWorking = true;
@@ -145,6 +174,9 @@ function forwardSession() {
 }
 
 function executeWhenCountdownEnds() {
+    if (!isWorking) {
+        playEndBreakSound();
+    }
     forwardSession();
     if (settingData.autoStart) {
         startCountdown(executeWhenCountdownEnds);
@@ -158,6 +190,7 @@ function stopThisSession() {
 
 function pauseOrStart() {
     if (isPaused) {
+        playSound(startSoundUrl);
         startCountdown(executeWhenCountdownEnds);
     } else {
         pauseCountdown();
