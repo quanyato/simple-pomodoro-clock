@@ -6,7 +6,7 @@ let settingData = {
     pomoUntilLongBreak: 4,
     autoStart: false, //chua phat trien tinh nang
     soundEnable: true, //chua phat trien tinh nang
-    notificationEnable: false //chua phat trien tinh nang
+    notificationEnable: true //chua phat trien tinh nang
 }
 
 let timer; //khoi tao mot chiec dong ho
@@ -147,7 +147,7 @@ function forwardSession() {
 function executeWhenCountdownEnds() {
     forwardSession();
     if (settingData.autoStart) {
-        startCountdown(executeWhenCountdownEnds());
+        startCountdown(executeWhenCountdownEnds);
     }
 }
 
@@ -158,7 +158,7 @@ function stopThisSession() {
 
 function pauseOrStart() {
     if (isPaused) {
-        startCountdown(executeWhenCountdownEnds());
+        startCountdown(executeWhenCountdownEnds);
     } else {
         pauseCountdown();
     }
