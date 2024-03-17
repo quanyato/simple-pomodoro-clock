@@ -84,7 +84,7 @@
 
 body {
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     background-color: rgba(var(--tck-background), 1);
 }
 
@@ -117,7 +117,7 @@ body {
 
 .mainApp {
     max-width: 600px;
-    height: 100vh;
+    height: 100%;
 }
 
 .inputNumber {
