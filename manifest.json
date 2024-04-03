@@ -1,6 +1,21 @@
 {
     "name": "TCK Pomo",
     "short_name": "Pomo",
+    "lang": "vi",
+    "start_url": "/",
+    "scope": "/",
+    "description": "A simple Pomodoro clock",
+    "categories": [
+        "productivity",
+        "devtools",
+        "browser",
+        "education"
+    ],
+    "orientation": "any",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display_override": ["window-controls-overlay", "standalone"],
+    "display": "fullscreen",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -12,9 +27,5 @@
             "sizes": "512x512",
             "type": "image/png"
         }
-    ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
-    "display_override": ["window-controls-overlay"],
-    "display": "standalone"
+    ]
 }
