@@ -15,5 +15,6 @@
     ],
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
+    "display_override": ["window-controls-overlay"],
     "display": "standalone"
 }

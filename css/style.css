@@ -88,6 +88,10 @@ body {
     background-color: rgba(var(--tck-background), 1);
 }
 
+.svg-color-3 {
+    fill: rgba(var(--tck-color-3), 1);
+}
+
 .btn-primary {
     --bs-btn-color: rgba(var(--tck-color-3), 1);
     --bs-btn-bg: rgba(var(--tck-color-2), 1);
@@ -154,6 +158,10 @@ body {
     width: 150px;
     font-size: 20px;
     background-color: rgba(var(--tck-color-1), 1);
+}
+
+#themeGroup {
+    display: none;
 }
 
 @media screen and (max-width: 400px) {
