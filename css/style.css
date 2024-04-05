@@ -84,8 +84,12 @@
 
 body {
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     background-color: rgba(var(--tck-background), 1);
+}
+
+.svg-color-3 {
+    fill: rgba(var(--tck-color-3), 1);
 }
 
 .btn-primary {
@@ -117,7 +121,7 @@ body {
 
 .mainApp {
     max-width: 600px;
-    height: 100vh;
+    height: 100%;
 }
 
 .inputNumber {
@@ -154,6 +158,14 @@ body {
     width: 150px;
     font-size: 20px;
     background-color: rgba(var(--tck-color-1), 1);
+}
+
+#themeGroup {
+    display: none;
+}
+
+#installBtn {
+    display: none;
 }
 
 @media screen and (max-width: 400px) {
