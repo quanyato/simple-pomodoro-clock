@@ -2,7 +2,7 @@
     "name": "TCK Pomo",
     "short_name": "Pomo",
     "lang": "vi",
-    "start_url": "/",
+    "start_url": "https://quanyato.github.io/simple-pomodoro-clock/",
     "scope": "/",
     "description": "A simple Pomodoro clock",
     "categories": [
