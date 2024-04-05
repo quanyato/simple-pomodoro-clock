@@ -3,7 +3,7 @@
     "short_name": "Pomo",
     "lang": "vi",
     "start_url": "https://quanyato.github.io/simple-pomodoro-clock/",
-    "scope": "/",
+    "scope": "https://quanyato.github.io/simple-pomodoro-clock/",
     "description": "A simple Pomodoro clock",
     "categories": [
         "productivity",
