@@ -16,6 +16,8 @@ const INITIAL_CACHED_RESOURCES = [
     '/audio/short_break_start.m4a',
     '/audio/short_break_end.m4a',
     '/audio/start.m4a',
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
 ];
 
 self.addEventListener( "install", function( event ){

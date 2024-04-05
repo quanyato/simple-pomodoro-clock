@@ -4,9 +4,10 @@ let settingData = {
     shortBreakLength: 5,
     longBreakLength: 15,
     pomoUntilLongBreak: 4,
-    autoStart: false, //chua phat trien tinh nang
-    soundEnable: true, //chua phat trien tinh nang
-    notificationEnable: true //chua phat trien tinh nang
+    autoStart: false,
+    soundEnable: true,
+    notificationEnable: true,
+    keepScreenOn: false
 }
 
 let timer; //khoi tao mot chiec dong ho
@@ -131,6 +132,30 @@ function playEndBreakSound() {
     }
 }
 
+function timeOutNotification() {
+    let message;
+    if (isWorking) {
+        message = 'Focus ended! Time to take a break.';
+    } else if (pomoRound == settingData.pomoUntilLongBreak) {
+        message = 'Long break ended! Time to focus.';
+    } else {
+        message = 'Short break ended! Time to focus.';
+    }
+    if (!("Notification" in window)) {
+        console.log("This browser does not support desktop notification");
+    }
+    else if (Notification.permission === "granted") {
+        let notification = new Notification(message);
+    }
+    else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(function (permission) {
+            if (permission === "granted") {
+                let notification = new Notification(message);
+            }
+        });
+    }
+}
+
 // main function
 function startCountdown(funcExecuteWhenCountdownEnd) {
     isPaused = false;
@@ -184,6 +209,9 @@ function executeWhenCountdownEnds() {
     if (!isWorking) {
         playEndBreakSound();
     }
+    if (settingData.notificationEnable) {
+        timeOutNotification();
+    }
     forwardSession();
     if (settingData.autoStart) {
         startCountdown(executeWhenCountdownEnds);
@@ -221,11 +249,30 @@ function updatePomoSettings() {
     updateSessionDOM();
 }
 
+let wakeLock = null;
+const requestWakeLock = async () => {
+    try {
+        wakeLock = await navigator.wakeLock.request();
+        wakeLock.addEventListener('release', () => {
+            console.log('Screen Wake Lock released:', wakeLock.released);
+        });
+        console.log('Screen Wake Lock released:', wakeLock.released);
+    } catch (err) {
+        console.error(`${err.name}, ${err.message}`);
+    }
+};
+
 function updateOtherSettings() {
     settingData.darkTheme = document.getElementById('darkThemeOn').checked;
     settingData.autoStart = document.getElementById('autoStartOn').checked;
     settingData.soundEnable = document.getElementById('soundOn').checked;
     settingData.notificationEnable = document.getElementById('notificationOn').checked;
+    settingData.keepScreenOn = document.getElementById('keepScreenOn').checked;
+    if (settingData.keepScreenOn) {
+        requestWakeLock();
+    } else {
+        wakeLock.release();
+    }
 }
 
 
@@ -239,6 +286,7 @@ if ('serviceWorker' in navigator) {
         });
     });
 }
+Notification.requestPermission()
 setPomodoro();
 updateSessionDOM();
 updateContextPlayButton();
