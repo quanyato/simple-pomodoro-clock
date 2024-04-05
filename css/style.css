@@ -164,6 +164,10 @@ body {
     display: none;
 }
 
+#installBtn {
+    display: none;
+}
+
 @media screen and (max-width: 400px) {
     .custom-btn-1 {
         width: 90px;

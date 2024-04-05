@@ -48,6 +48,7 @@ const lightGreen = {
 
 // UI function
 function setTheme(theme) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', `rgb(${theme.back})`);
     var r = document.querySelector(':root');
     r.style.setProperty('--tck-background', theme.back);
     r.style.setProperty('--tck-color-1', theme.color1);
@@ -227,12 +228,46 @@ function updateOtherSettings() {
     settingData.notificationEnable = document.getElementById('notificationOn').checked;
 }
 
+
 //init
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/js/sw.js').then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+        });
+    });
+}
 setPomodoro();
 updateSessionDOM();
 updateContextPlayButton();
 updateContextStopButton();
 loadSettingsToDOM();
+
+// install prompt visible
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.querySelector("#installBtn").style.display="block"; 
+});
+async function installApp() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        console.log("Installation Dialog opened");
+
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        if (outcome === 'accepted') {
+            console.log('User accepted the install prompt.', true);
+        } else if (outcome === 'dismissed') {
+            console.log('User dismissed the install prompt');
+        }
+
+        document.querySelector("#installBtn").style.display = "none";
+    }
+}
 
 // DOM
 document.getElementById('startButton').addEventListener('click', pauseOrStart);
