@@ -140,29 +140,30 @@ function playEndBreakSound() {
 }
 
 function timeOutNotification() {
-    const title = 'Simple Title';
-    const options = {
-        body: 'Simple piece of body text.\nSecond line of body text :)',
+    let title = '';
+    let options = {
+        body: '',
     };
-    let message;
     if (isWorking) {
-        message = 'Focus ended! Time to take a break.';
+        title = 'Pomodoro ended!';
+        options.body = 'Time for a break.';
     } else if (pomoRound == settingData.pomoUntilLongBreak) {
-        message = 'Long break ended! Time to focus.';
+        title = 'Long break ended!';
+        options.body = 'Time to focus.';
     } else {
-        message = 'Short break ended! Time to focus.';
+        title = 'Short break ended!';
+        options.body = 'Time to focus.';
     }
+
     if (!("Notification" in window)) {
         console.log("This browser does not support desktop notification");
     }
     else if (Notification.permission === "granted") {
-        let notification = new Notification(message);
         registration.showNotification(title, options);
     }
     else if (Notification.permission !== "denied") {
         Notification.requestPermission().then(function (permission) {
             if (permission === "granted") {
-                let notification = new Notification(message);
                 registration.showNotification(title, options);
             }
         });
@@ -276,6 +277,11 @@ const requestWakeLock = async () => {
         console.error(`${err.name}, ${err.message}`);
     }
 };
+document.addEventListener("visibilitychange", async () => {
+    if (wakeLock !== null && document.visibilityState === "visible") {
+        wakeLock = await navigator.wakeLock.request("screen");
+    }
+});  
 
 function updateOtherSettings() {
     settingData.darkTheme = document.getElementById('darkThemeOn').checked;
