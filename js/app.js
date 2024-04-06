@@ -222,7 +222,9 @@ function forwardSession() {
 }
 
 function executeWhenCountdownEnds() {
-    playEndBreakSound();
+    if (!isWorking) {
+        playEndBreakSound();
+    }
     if (settingData.notificationEnable) {
         try {
             timeOutNotification();
