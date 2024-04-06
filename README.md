@@ -9,7 +9,7 @@ Bổ sung thêm các nút để tùy chỉnh đồng hồ như giao diện; đ�
 ## Bổ sung tính năng tự động bỏ qua
 Cho phép tự động sang phiên tiếp theo khi đồng hồ đếm ngược đến 00:00
 
-## Bổ sung âm thanh (*Chưa hoàn thành*)
+## Bổ sung âm thanh
 Thêm âm thanh khi bắt đầu phiên, kết thúc phiên và có thể là âm thanh nền xuyên suốt phiên làm việc
 
 ## Cải tiến giao diện đẹp hơn, responsive
