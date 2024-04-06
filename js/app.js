@@ -10,6 +10,7 @@ let settingData = {
     keepScreenOn: false
 }
 
+let registration = null;
 let timer; //khoi tao mot chiec dong ho
 let isPaused = true;
 let pomoRound = 1;
@@ -297,8 +298,9 @@ function updateOtherSettings() {
 //init
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-        navigator.serviceWorker.register(swPath).then(function(registration) {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        navigator.serviceWorker.register(swPath).then(function(registrationNow) {
+            registration = registrationNow;
+            console.log('ServiceWorker registration successful with scope: ', registrationNow.scope);
         }, function(err) {
             console.log('ServiceWorker registration failed: ', err);
         });
