@@ -82,6 +82,11 @@
     font-style: italic;
 }
 
+html {
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
 body {
     width: 100vw;
     height: 100dvh;

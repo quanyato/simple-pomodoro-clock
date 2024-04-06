@@ -10,6 +10,7 @@ let settingData = {
     keepScreenOn: false
 }
 
+let registration = null;
 let timer; //khoi tao mot chiec dong ho
 let isPaused = true;
 let pomoRound = 1;
@@ -112,9 +113,13 @@ function loadSettingsToDOM() {
 }
 
 function playSound(soundUrl) {
-    let sfx = new Audio(soundUrl);
-    if (settingData.soundEnable) {
-        sfx.play();
+    try {
+        let sfx = new Audio(soundUrl);
+        if (settingData.soundEnable) {
+            sfx.play();
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -135,24 +140,33 @@ function playEndBreakSound() {
 }
 
 function timeOutNotification() {
-    let message;
+    let title = '';
+    let options = {
+        body: '',
+        tag: 'pomodoro-clock-notification',
+        renotify: true,
+    };
     if (isWorking) {
-        message = 'Focus ended! Time to take a break.';
+        title = 'Pomodoro ended!';
+        options.body = 'Time for a break.';
     } else if (pomoRound == settingData.pomoUntilLongBreak) {
-        message = 'Long break ended! Time to focus.';
+        title = 'Long break ended!';
+        options.body = 'Time to focus.';
     } else {
-        message = 'Short break ended! Time to focus.';
+        title = 'Short break ended!';
+        options.body = 'Time to focus.';
     }
+
     if (!("Notification" in window)) {
         console.log("This browser does not support desktop notification");
     }
     else if (Notification.permission === "granted") {
-        let notification = new Notification(message);
+        registration.showNotification(title, options);
     }
     else if (Notification.permission !== "denied") {
         Notification.requestPermission().then(function (permission) {
             if (permission === "granted") {
-                let notification = new Notification(message);
+                registration.showNotification(title, options);
             }
         });
     }
@@ -208,11 +222,13 @@ function forwardSession() {
 }
 
 function executeWhenCountdownEnds() {
-    if (!isWorking) {
-        playEndBreakSound();
-    }
+    playEndBreakSound();
     if (settingData.notificationEnable) {
-        timeOutNotification();
+        try {
+            timeOutNotification();
+        } catch (error) {
+            console.log(error);
+        }
     }
     forwardSession();
     if (settingData.autoStart) {
@@ -263,6 +279,11 @@ const requestWakeLock = async () => {
         console.error(`${err.name}, ${err.message}`);
     }
 };
+document.addEventListener("visibilitychange", async () => {
+    if (wakeLock !== null && document.visibilityState === "visible") {
+        wakeLock = await navigator.wakeLock.request("screen");
+    }
+});  
 
 function updateOtherSettings() {
     settingData.darkTheme = document.getElementById('darkThemeOn').checked;
@@ -273,7 +294,11 @@ function updateOtherSettings() {
     if (settingData.keepScreenOn) {
         requestWakeLock();
     } else {
-        wakeLock.release();
+        try {
+            wakeLock.release();
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
@@ -281,8 +306,9 @@ function updateOtherSettings() {
 //init
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-        navigator.serviceWorker.register(swPath).then(function(registration) {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        navigator.serviceWorker.register(swPath).then(function(registrationNow) {
+            registration = registrationNow;
+            console.log('ServiceWorker registration successful with scope: ', registrationNow.scope);
         }, function(err) {
             console.log('ServiceWorker registration failed: ', err);
         });

@@ -26,5 +26,22 @@
             "sizes": "512x512",
             "type": "image/png"
         }
+    ],
+    "screenshots": [
+        {
+            "src": "/simple-pomodoro-clock/img/Screenshot(7).png",
+            "sizes": "1920x1080",
+            "type": "image/png"
+        },
+        {
+            "src": "/simple-pomodoro-clock/img/Screenshot(8).png",
+            "sizes": "1920x1080",
+            "type": "image/png"
+        },
+        {
+            "src": "/simple-pomodoro-clock/img/Screenshot(9).png",
+            "sizes": "1920x1080",
+            "type": "image/png"
+        }
     ]
 }
