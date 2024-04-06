@@ -139,6 +139,10 @@ function playEndBreakSound() {
 }
 
 function timeOutNotification() {
+    const title = 'Simple Title';
+    const options = {
+        body: 'Simple piece of body text.\nSecond line of body text :)',
+    };
     let message;
     if (isWorking) {
         message = 'Focus ended! Time to take a break.';
@@ -152,11 +156,13 @@ function timeOutNotification() {
     }
     else if (Notification.permission === "granted") {
         let notification = new Notification(message);
+        registration.showNotification(title, options);
     }
     else if (Notification.permission !== "denied") {
         Notification.requestPermission().then(function (permission) {
             if (permission === "granted") {
                 let notification = new Notification(message);
+                registration.showNotification(title, options);
             }
         });
     }
