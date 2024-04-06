@@ -36,8 +36,22 @@ self.addEventListener( "install", function( event ){
     })());
 });
 
-self.addEventListener( "fetch", function( event ){
-    console.log( "WORKER: Fetching", event.request );
+self.addEventListener("fetch", function (event) {
+    console.log("WORKER: Fetching", event.request);
+
+    event.respondWith((async () => {
+        const cache = await caches.open(CACHE_NAME);
+
+        const cachedResponse = await cache.match(event.request);
+        if (cachedResponse !== undefined) {
+            // Cache hit, let's send the cached resource.
+            return cachedResponse;
+        } else {
+            // Nothing in cache, let's go to the network.
+
+            // ...... truncated ....
+        }
+    }));
 });
 
 self.addEventListener( "push", function( event ){
