@@ -112,9 +112,13 @@ function loadSettingsToDOM() {
 }
 
 function playSound(soundUrl) {
-    let sfx = new Audio(soundUrl);
-    if (settingData.soundEnable) {
-        sfx.play();
+    try {
+        let sfx = new Audio(soundUrl);
+        if (settingData.soundEnable) {
+            sfx.play();
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -208,11 +212,13 @@ function forwardSession() {
 }
 
 function executeWhenCountdownEnds() {
-    if (!isWorking) {
-        playEndBreakSound();
-    }
+    playEndBreakSound();
     if (settingData.notificationEnable) {
-        timeOutNotification();
+        try {
+            timeOutNotification();
+        } catch (error) {
+            console.log(error);
+        }
     }
     forwardSession();
     if (settingData.autoStart) {
@@ -273,7 +279,11 @@ function updateOtherSettings() {
     if (settingData.keepScreenOn) {
         requestWakeLock();
     } else {
-        wakeLock.release();
+        try {
+            wakeLock.release();
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
