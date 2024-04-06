@@ -143,6 +143,8 @@ function timeOutNotification() {
     let title = '';
     let options = {
         body: '',
+        tag: 'pomodoro-clock-notification',
+        renotify: true,
     };
     if (isWorking) {
         title = 'Pomodoro ended!';
