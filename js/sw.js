@@ -31,6 +31,7 @@ self.addEventListener( "install", function( event ){
     console.log( "WORKER: install event in progress." );
 
     event.waitUntil((async () => {
+        caches.delete(CACHE_NAME);
         const cache = await caches.open(CACHE_NAME);
         cache.addAll(INITIAL_CACHED_RESOURCES);
     })());
