@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tck-pomo-v1';
+const CACHE_NAME = 'tck-pomo-v2';
 
 const rootFolder = 'tckpomo.vercel.app/';
 
