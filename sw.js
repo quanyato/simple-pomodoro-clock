@@ -5,8 +5,11 @@ const rootFolder = '/';
 const INITIAL_CACHED_RESOURCES = [
     `${rootFolder}`,
     `${rootFolder}index.html`,
+    `${rootFolder}manifest.json`,
     `${rootFolder}css/styles.css`,
+    `${rootFolder}css/bootstrap.min.css`,
     `${rootFolder}js/app.js`,
+    `${rootFolder}js/bootstrap.min.js`,
     `${rootFolder}img/android-chrome-192x192.png`,
     `${rootFolder}img/android-chrome-512x512.png`,
     `${rootFolder}img/apple-touch-icon.png`,
@@ -18,8 +21,6 @@ const INITIAL_CACHED_RESOURCES = [
     `${rootFolder}audio/short_break_end.m4a`,
     `${rootFolder}audio/long_break_start.m4a`,
     `${rootFolder}audio/long_break_end.m4a`,
-    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
-    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
 ];
 
 self.addEventListener( "install", function( event ){
@@ -31,21 +32,23 @@ self.addEventListener( "install", function( event ){
     }));
 });
 
-self.addEventListener("fetch", function (event) {
-    console.log("WORKER: Fetching", event.request);
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        caches.match(event.request)
+            .then(response => {
+                if (response) {
+                    // If the request is in the cache, return it
+                    return response;
+                }
 
-    event.respondWith((async () => {
-        const cache = await caches.open(CACHE_NAME);
-
-        const cachedResponse = await cache.match(event.request);
-        if (cachedResponse !== undefined) {
-            // Cache hit, let's send the cached resource.
-            return cachedResponse;
-        } else {
-            // Nothing in cache, let's go to the network.
-            // ...... truncated ....
-        }
-    }));
+                // If the request is not in the cache, fetch it from the network
+                return fetch(event.request);
+            })
+            .catch(error => {
+                console.error('Error fetching resource from network:', error);
+                throw error;
+            })
+    );
 });
 
 self.addEventListener( "push", function( event ){
