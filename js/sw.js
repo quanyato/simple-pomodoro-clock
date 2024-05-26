@@ -1,6 +1,6 @@
 const CACHE_NAME = 'tck-pomo-v1';
 
-const rootFolder = '/simple-pomodoro-clock/';
+const rootFolder = '/';
 
 const INITIAL_CACHED_RESOURCES = [
     `${rootFolder}`,
