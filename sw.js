@@ -1,6 +1,6 @@
 const CACHE_NAME = 'tck-pomo-v1';
 
-const rootFolder = '/';
+const rootFolder = 'tckpomo.vercel.app/';
 
 const INITIAL_CACHED_RESOURCES = [
     `${rootFolder}`,
